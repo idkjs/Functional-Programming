@@ -1,0 +1,22 @@
+rescript = 1
+rule cp
+  command = cp $i $out
+rule touch
+ command = touch $out
+o logic.cmi : cp ../bs/List4/logic.cmi
+o logic.cmj : cp ../bs/List4/logic.cmj
+o logic.cmt : cp ../bs/List4/logic.cmt
+o logic.re : cp ../../List4/logic.re
+o logic.rei : cp ../../List4/logic.rei
+o logic.cmti : cp ../bs/List4/logic.cmti
+o proof.cmi : cp ../bs/List4/proof.cmi
+o proof.cmj : cp ../bs/List4/proof.cmj
+o proof.cmt : cp ../bs/List4/proof.cmt
+o proof.re : cp ../../List4/proof.re
+o proof.rei : cp ../../List4/proof.rei
+o proof.cmti : cp ../bs/List4/proof.cmti
+o LogicLib.cmi : cp ../bs/List4/LogicLib.cmi
+o LogicLib.cmj : cp ../bs/List4/LogicLib.cmj
+o LogicLib.cmt : cp ../bs/List4/LogicLib.cmt
+o LogicLib.re : cp ../../List4/LogicLib.re
+build install.stamp : touch logic.cmi logic.cmj proof.cmi proof.cmj LogicLib.cmi LogicLib.cmj 

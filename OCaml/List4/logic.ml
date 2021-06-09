@@ -23,7 +23,7 @@ let pp_print_formula fmtr f =
 
 type impl = Impl of formula * formula
 type ('a, 'b, 'c) node = { assumptions: 'a list; consequence: 'b; children: 'c list}
-type ('a, 'b) leaf = { assumptions: 'a list; consequence: 'b } 
+type ('a, 'b) leaf = { assumptions: 'a list; consequence: 'b }
 
 (* Schema: concl_assump * concl_reason * children (if any) *)
 type theorem =

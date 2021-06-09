@@ -1,0 +1,21 @@
+#Start(1623228865362)
+
+  We've found a bug for you!
+  /Users/mando/Github/Functional-Programming-Reason/ReasonJs/List4/logic.re
+  
+  The implementation /Users/mando/Github/Functional-Programming-Reason/ReasonJs/List4/logic.re
+       does not match the interface List4/logic.cmi:
+       The value `bot_e' is required but not provided
+       File "/Users/mando/Github/Functional-Programming-Reason/ReasonJs/List4/logic.rei", line 42, characters 0-40:
+         Expected declaration
+       The value `imp_e' is required but not provided
+       File "/Users/mando/Github/Functional-Programming-Reason/ReasonJs/List4/logic.rei", line 35, characters 0-40:
+         Expected declaration
+       The value `imp_i' is required but not provided
+       File "/Users/mando/Github/Functional-Programming-Reason/ReasonJs/List4/logic.rei", line 28, characters 0-40:
+         Expected declaration
+       The value `by_assumption' is required but not provided
+       File "/Users/mando/Github/Functional-Programming-Reason/ReasonJs/List4/logic.rei", line 21, characters 0-37:
+         Expected declaration
+  
+#Done(1623228865466)

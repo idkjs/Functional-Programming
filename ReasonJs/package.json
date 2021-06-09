@@ -1,0 +1,19 @@
+{
+  "name": "reason-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "BS_WATCH_CLEAR=true bsb -make-world -w",
+    "clean": "bsb -clean-world",
+    "test": "jest",
+    "start": "nodemon --delay '100ms' --watch src/ -e re --exec './build.sh'",
+    "format": "find . -iname '*.re' | grep -v node_modules | xargs bsrefmt --in-place && find . -iname '*.rei' | xargs bsrefmt -i true --in-place"
+  },
+  "keywords": [],
+  "author": "Alain Armand",
+  "license": "ISC",
+  "dependencies": {
+    "bs-platform": "^9.0.2"
+  }
+}

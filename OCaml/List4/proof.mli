@@ -1,67 +1,63 @@
-open Logic
+open  Logic
 
-type proof
+type  proof
 
-(** Tworzy pusty dowód podanego twierdzenia *)
-val proof : (string * formula) list -> formula -> proof
+(* * Creates an empty proof of the given theorem *)
+val  proof : ( string  *  formula ) list -> formula -> proof
 
-(** Zamienia ukończony dowód na twierdzenie *)
-val qed : proof -> theorem
+(* * Turns the completed proof into a statement *)
+val  qed : proof -> theorem
 
-(** Zwraca jeśli dowód jest ukończony, zwraca None. W przeciwnym wypadku
-  zwraca Some(assm, phi), gdzie assm oraz phi to odpowiednio dostępne
-  założenia oraz formuła do udowodnienia w aktywnym podcelu *)
-val goal : proof -> ((string * formula) list * formula) option
+(* * Returns if the proof is complete, returns None, otherwise
+ returns Some (assm, phi), where assm and phi are respectively available
+assumptions and formula to be proven in the active sub-target *)
+val  goal : proof -> (( string  *  formula ) list  *  formula ) option
 
-(** Przesuwa cylkicznie aktywny podcel na następny (od lewej do prawej) *)
-val next : proof -> proof
+(* * Moves the active sub-target to the next one (from left to right) *)
+val  next : proof -> proof
 
-(** Wywołanie intro name pf odpowiada regule wprowadzania implikacji.
-  To znaczy aktywna dziura wypełniana jest regułą:
+(* * The call to intro name pf corresponds to the rule for introducing implications.
+ That is, the active hole is filled with the rule:
+ (new active target)
+ (name, ψ) :: Γ ⊢ φ
+ ----------------- (→ I)
+ Γ ⊢ ψ → φ
+If the active target is not an implication, the invocation fails with an error *)
+val  intro : string -> proof -> proof
 
-  (nowy aktywny cel)
-   (name,ψ) :: Γ ⊢ φ
-   -----------------(→I)
-       Γ ⊢ ψ → φ
+(* * The call to apply ψ₀ pf also corresponds to the elimination of the implication
+and the elimination of falsehood. Ie. if there is φ to prove, and ψ₀ is
+ of the form ψ₁ → ... → ψn → φ then the active hole is filled with rules
 
-  Jeśli aktywny cel nie jest implikacją, wywołanie kończy się błędem *)
-val intro : string -> proof -> proof
+ (new active target) (new target)
+ Γ ⊢ ψ₀ Γ ⊢ ψ₁
+ ---------------------- (→ E) (new target)
+ ... Γ ⊢ ψn
+ ---------------------------- (→ E)
+ Γ ⊢ φ
+ Conversely, if ψ₀ is of the form ψ₁ → ... → ψn → ⊥ then an active hole
+ is filled with rules
+ (new active target) (new target)
+ Γ ⊢ ψ₀ Γ ⊢ ψ₁
+ ---------------------- (→ E) (new target)
+ ... Γ ⊢ ψn
+ ---------------------------- (→ E)
+ Γ ⊢ ⊥
+ ----- (⊥E)
+Γ ⊢ φ *)
+val  apply : formula -> proof -> proof
 
-(** Wywołanie apply ψ₀ pf odpowiada jednocześnie eliminacji implikacji
-  i eliminacji fałszu. Tzn. jeśli do udowodnienia jest φ, a ψ₀ jest
-  postaci ψ₁ → ... → ψn → φ to aktywna dziura wypełniana jest regułami
-  
-  (nowy aktywny cel) (nowy cel)
-        Γ ⊢ ψ₀          Γ ⊢ ψ₁
-        ----------------------(→E)  (nowy cel)
-                ...                   Γ ⊢ ψn
-                ----------------------------(→E)
-                            Γ ⊢ φ
+(* * Call apply_thm thm pf
+ works similar to apply (Logic.consequence thm) pf, except that
+ the active hole is immediately filled with the thm proof.
+ The new active hole is the first to the right after the one left
+filled by thm *)
 
-  Natomiast jeśli ψ₀ jest postaci ψ₁ → ... → ψn → ⊥ to aktywna dziura
-  wypełniana jest regułami
+val  apply_thm : theorem -> proof -> proof
 
-  (nowy aktywny cel) (nowy cel)
-        Γ ⊢ ψ₀          Γ ⊢ ψ₁
-        ----------------------(→E)  (nowy cel)
-                ...                   Γ ⊢ ψn
-                ----------------------------(→E)
-                            Γ ⊢ ⊥
-                            -----(⊥E)
-                            Γ ⊢ φ *)
-val apply : formula -> proof -> proof
+(* * Call apply_assm name pf
+ works like apply (Logic.by_assumption f) pf,
+where f is an assumption named name *)
+val  apply_assm : string -> proof -> proof
 
-(** Wywołanie apply_thm thm pf
- działa podobnie do apply (Logic.consequence thm) pf, tyle że
- aktywna dziura od razu jest wypełniana dowodem thm.
- Nowa aktywna dziura jest pierwszą na prawo po tej, która została
- wypełniona przez thm *)
-
-val apply_thm : theorem -> proof -> proof
-
-(** Wywołanie apply_assm name pf
-  działa tak jak apply (Logic.by_assumption f) pf,
-  gdzie f jest załorzeniem o nazwie name *)
-val apply_assm : string -> proof -> proof
-
-val pp_print_proof : Format.formatter -> proof -> unit
+val  pp_print_proof : Format .formatter -> proof -> unit

@@ -1,46 +1,42 @@
-type formula =
-  | False
-  | Var of string
-  | Impl of formula * formula
-  
+type  formula =
+ | False
+| Var  of  string
+| Impl  of  formula  *  formula
+
 val pp_print_formula : Format.formatter -> formula -> unit
 
-(** reprezentacja twierdzeń *)
-type theorem
+(* * statement representation *)
+type  theorem
 
-(** założenia twierdzenia *)
+(* * assumptions of the theorem *)
 val assumptions : theorem -> formula list
-(** teza twierdzeni *)
+(* * thesis *)
 val consequence : theorem -> formula
 
 val pp_print_theorem : Format.formatter -> theorem -> unit
 
-(** by_assumption f konstuuje następujący dowód
-
-  -------(Ax)
-  {f} ⊢ f  *)
+(* * by_assumption f constructs the following proof
+ -------(Ax)
+ {f} ⊢ f *)
 val by_assumption : formula -> theorem
 
-(** imp_i f thm konstuuje następujący dowód
-
-       thm
-      Γ ⊢ φ
+(* * imp_i f thm constructs the following proof
+ thm
+ Γ ⊢ φ
  ---------------(→I)
- Γ \ {f} ⊢ f → φ *)
+Γ \ {f} ⊢ f → φ *)
 val imp_i : formula -> theorem -> theorem
 
-(** imp_e thm1 thm2 konstuuje następujący dowód
-
-    thm1      thm2
- Γ ⊢ φ → ψ    Δ ⊢ φ 
+(* * imp_e thm1 thm2 makes the following proof
+ thm1 thm2
+ Γ ⊢ φ → ψ Δ ⊢ φ
  ------------------(→E)
- Γ ∪ Δ ⊢ ψ *)
+Γ ∪ Δ ⊢ ψ *)
 val imp_e : theorem -> theorem -> theorem
 
-(** bot_e f thm konstruuje następujący dowód
-
-   thm
-  Γ ⊢ ⊥
-  -----(⊥E)
-  Γ ⊢ f *)
+(* * bot_e f thm constructs the following proof
+ thm
+ Γ ⊢ ⊥
+ -----(⊥E)
+Γ ⊢ f *)
 val bot_e : formula -> theorem -> theorem

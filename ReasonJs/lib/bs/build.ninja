@@ -1,0 +1,31 @@
+rescript = 1
+rule astj
+  command = /Users/mando/Github/Functional-Programming-Reason/ReasonJs/node_modules/.pnpm/bs-platform@9.0.2/node_modules/bs-platform/darwin/bsc.exe  -warn-error +101 -bs-v 9.0.2  -absname -bs-ast -o $out $i
+o List4/logic.ast : astj ../../List4/logic.re
+rule deps
+  command = /Users/mando/Github/Functional-Programming-Reason/ReasonJs/node_modules/.pnpm/bs-platform@9.0.2/node_modules/bs-platform/darwin/bsb_helper.exe -hash 97c47c4b921882f62248e693c1becad5 $in
+  restat = 1
+o List4/logic.d : deps List4/logic.ast List4/logic.iast
+o List4/logic.iast : astj ../../List4/logic.rei
+rule mi
+  command = /Users/mando/Github/Functional-Programming-Reason/ReasonJs/node_modules/.pnpm/bs-platform@9.0.2/node_modules/bs-platform/darwin/bsc.exe -I List4   -warn-error +101 $i
+  dyndep = 1
+  restat = 1
+o List4/logic.cmi : mi List4/logic.iast
+rule mj
+  command = /Users/mando/Github/Functional-Programming-Reason/ReasonJs/node_modules/.pnpm/bs-platform@9.0.2/node_modules/bs-platform/darwin/bsc.exe -bs-read-cmi -I List4   -warn-error +101 -bs-package-name basic -bs-package-output commonjs:lib/js/$in_d:.js $i
+  dyndep = 1
+  restat = 1
+o List4/logic.cmj ../js/List4/logic.js : mj List4/logic.ast List4/logic.cmi
+o List4/proof.ast : astj ../../List4/proof.re
+o List4/proof.d : deps List4/proof.ast List4/proof.iast
+o List4/proof.iast : astj ../../List4/proof.rei
+o List4/proof.cmi : mi List4/proof.iast
+o List4/proof.cmj ../js/List4/proof.js : mj List4/proof.ast List4/proof.cmi
+o List4/LogicLib.ast : astj ../../List4/LogicLib.re
+o List4/LogicLib.d : deps List4/LogicLib.ast
+rule mij
+  command = /Users/mando/Github/Functional-Programming-Reason/ReasonJs/node_modules/.pnpm/bs-platform@9.0.2/node_modules/bs-platform/darwin/bsc.exe -I List4   -warn-error +101 -bs-package-name basic -bs-package-output commonjs:lib/js/$in_d:.js $i
+  dyndep = 1
+  restat = 1
+o List4/LogicLib.cmj List4/LogicLib.cmi ../js/List4/LogicLib.js : mij List4/LogicLib.ast
